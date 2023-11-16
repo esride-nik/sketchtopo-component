@@ -6,7 +6,7 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
-    interface MyComponent {
+    interface SketchtopoComponent {
         /**
           * The first name
          */
@@ -22,18 +22,18 @@ export namespace Components {
     }
 }
 declare global {
-    interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
+    interface HTMLSketchtopoComponentElement extends Components.SketchtopoComponent, HTMLStencilElement {
     }
-    var HTMLMyComponentElement: {
-        prototype: HTMLMyComponentElement;
-        new (): HTMLMyComponentElement;
+    var HTMLSketchtopoComponentElement: {
+        prototype: HTMLSketchtopoComponentElement;
+        new (): HTMLSketchtopoComponentElement;
     };
     interface HTMLElementTagNameMap {
-        "my-component": HTMLMyComponentElement;
+        "sketchtopo-component": HTMLSketchtopoComponentElement;
     }
 }
 declare namespace LocalJSX {
-    interface MyComponent {
+    interface SketchtopoComponent {
         /**
           * The first name
          */
@@ -48,14 +48,14 @@ declare namespace LocalJSX {
         "middle"?: string;
     }
     interface IntrinsicElements {
-        "my-component": MyComponent;
+        "sketchtopo-component": SketchtopoComponent;
     }
 }
 export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
+            "sketchtopo-component": LocalJSX.SketchtopoComponent & JSXBase.HTMLAttributes<HTMLSketchtopoComponentElement>;
         }
     }
 }

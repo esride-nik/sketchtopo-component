@@ -2,11 +2,11 @@ import { Component, Prop, h } from '@stencil/core';
 import { format } from '../../utils/utils';
 
 @Component({
-  tag: 'my-component',
-  styleUrl: 'my-component.css',
+  tag: 'sketchtopo-component',
+  styleUrl: 'sketchtopo-component.css',
   shadow: true,
 })
-export class MyComponent {
+export class SketchTopoComponent {
   /**
    * The first name
    */

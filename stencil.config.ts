@@ -1,7 +1,7 @@
 import { Config } from '@stencil/core';
 
 export const config: Config = {
-  namespace: 'sketchtopology',
+  namespace: 'sketchtopo-component',
   outputTargets: [
     {
       type: 'dist',

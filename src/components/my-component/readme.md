@@ -1,4 +1,4 @@
-# my-component
+# sketchtopo-component
 
 
 
