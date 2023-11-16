@@ -17,7 +17,7 @@ describe('sketchtopo-component', () => {
     const element = await page.find('sketchtopo-component >>> div');
     expect(element.textContent).toEqual(`Hello, World! I'm `);
 
-    component.setProperty('first', 'James');
+    component.setProperty('checkThese', 'James');
     await page.waitForChanges();
     expect(element.textContent).toEqual(`Hello, World! I'm James`);
 

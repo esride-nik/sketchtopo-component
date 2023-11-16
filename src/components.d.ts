@@ -7,10 +7,7 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface SketchtopoComponent {
-        /**
-          * The first name
-         */
-        "first": string;
+        "checkThese": string;
         /**
           * The last name
          */
@@ -34,10 +31,7 @@ declare global {
 }
 declare namespace LocalJSX {
     interface SketchtopoComponent {
-        /**
-          * The first name
-         */
-        "first"?: string;
+        "checkThese"?: string;
         /**
           * The last name
          */
