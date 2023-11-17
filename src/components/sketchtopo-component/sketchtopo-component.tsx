@@ -1,6 +1,6 @@
 import { Component, Prop, h } from '@stencil/core';
 import { format } from '../../utils/utils';
-import { loadModules } from "esri-loader";
+// import { loadModules } from "esri-loader";
 import Geometry from '@arcgis/core/geometry/Geometry';
 
 @Component({
@@ -35,13 +35,13 @@ export class SketchTopoComponent {
 
   private createGeometry() {
     console.log('createGeometry');
-    loadModules(["esri/Geometry"]).then(() => {
-      this.geometry = {
-        type: "point",
-        x: 52,
-        y: 11
-      } as unknown as Geometry;
-    })
+    // loadModules(["esri/Geometry"]).then(() => {
+    //   this.geometry = {
+    //     type: "point",
+    //     x: 52,
+    //     y: 11
+    //   } as unknown as Geometry;
+    // })
   }
 
   render() {
