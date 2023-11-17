@@ -17,7 +17,7 @@
     "jsxFactory": "h"
   },
   "include": [
-    "src"
+    "src", "./node_modules/@arcgis/core/**/*.d.ts"
   ],
   "exclude": [
     "node_modules"

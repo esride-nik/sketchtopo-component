@@ -1,5 +1,6 @@
 import { Component, Prop, h } from '@stencil/core';
 import { format } from '../../utils/utils';
+import { Geometry } from '@arcgis/core/geometry'
 
 @Component({
   tag: 'sketchtopo-component',
@@ -7,23 +8,25 @@ import { format } from '../../utils/utils';
   shadow: true,
 })
 export class SketchTopoComponent {
-  /**
-   * The first name
-   */
-  @Prop() first: string;
 
-  /**
-   * The middle name
-   */
+  private checkGeometries: Geometry[]
+  
+  @Prop() banana: string;
+  @Prop() checkgeostr: string;
   @Prop() middle: string;
-
-  /**
-   * The last name
-   */
   @Prop() last: string;
 
+  connectedCallback(c: any) {
+    // const localJson = '[{\"type\":\"point\",\"x\": -0.178,\"y\": 51.48791,\"z\": 1010}]'
+    const replaced = this.checkgeostr.replace(/\\"/g, '"'); 
+    this.checkGeometries = JSON.parse(replaced)
+    // this.checkGeometries = JSON.parse(localJson.replace('\"', '"'))
+    // this.checkGeometries = JSON.parse(this.checkgeostr.replace('\"', '"'))
+    console.log("connectedCallback", c, this.checkGeometries)
+  }
+
   private getText(): string {
-    return format(this.first, this.middle, this.last);
+    return format(this.checkGeometries?.length.toString(), this.middle, this.last);
   }
 
   render() {
