@@ -17,11 +17,11 @@ export class SketchTopoComponent {
   @Prop() last: string;
 
   connectedCallback(c: any) {
-    // const localJson = '[{\"type\":\"point\",\"x\": -0.178,\"y\": 51.48791,\"z\": 1010}]'
+
+    // TODO:  https://gilfink.medium.com/using-complex-objects-arrays-as-props-in-stencil-components-f2d54b093e85
+    
     const replaced = this.checkgeostr.replace(/\\"/g, '"'); 
     this.checkGeometries = JSON.parse(replaced)
-    // this.checkGeometries = JSON.parse(localJson.replace('\"', '"'))
-    // this.checkGeometries = JSON.parse(this.checkgeostr.replace('\"', '"'))
     console.log("connectedCallback", c, this.checkGeometries)
   }
 
