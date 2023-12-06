@@ -1,7 +1,5 @@
 import { Component, Prop, h } from '@stencil/core';
-import { format } from '../../utils/utils';
-// import { loadModules } from "esri-loader";
-import Geometry from '@arcgis/core/geometry/Geometry';
+import { Geometry } from '@arcgis/core/geometry';
 
 @Component({
   tag: 'sketchtopo-component',
@@ -9,39 +7,15 @@ import Geometry from '@arcgis/core/geometry/Geometry';
   shadow: true,
 })
 export class SketchTopoComponent {
-  
-  geometry: Geometry;
-  
-  @Prop() checkThese: string;
 
-  /**
-   * The middle name
-   */
-  @Prop() middle: string;
+  @Prop() checkGeometries: Geometry[];
 
-  /**
-   * The last name
-   */
-  @Prop() last: string;
+  connectedCallback(c: any) {
+    console.log("connectedCallback", this.checkGeometries, c)
+  }
 
   private getText(): string {
-    console.log('getText', this.checkThese, this.middle, this.last);
-    return format(this.checkThese, this.middle, this.last);
-  }
-  
-  componentDidLoad() {
-    this.createGeometry()
-  }
-
-  private createGeometry() {
-    console.log('createGeometry');
-    // loadModules(["esri/Geometry"]).then(() => {
-    //   this.geometry = {
-    //     type: "point",
-    //     x: 52,
-    //     y: 11
-    //   } as unknown as Geometry;
-    // })
+    return JSON.stringify(this.checkGeometries);
   }
 
   render() {
