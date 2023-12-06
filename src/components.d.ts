@@ -5,11 +5,17 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { Geometry } from "@arcgis/core/geometry";
-export { Geometry } from "@arcgis/core/geometry";
 export namespace Components {
     interface SketchtopoComponent {
-        "checkGeometries": Geometry[];
+        "checkThese": string;
+        /**
+          * The last name
+         */
+        "last": string;
+        /**
+          * The middle name
+         */
+        "middle": string;
     }
 }
 declare global {
@@ -25,7 +31,15 @@ declare global {
 }
 declare namespace LocalJSX {
     interface SketchtopoComponent {
-        "checkGeometries"?: Geometry[];
+        "checkThese"?: string;
+        /**
+          * The last name
+         */
+        "last"?: string;
+        /**
+          * The middle name
+         */
+        "middle"?: string;
     }
     interface IntrinsicElements {
         "sketchtopo-component": SketchtopoComponent;
