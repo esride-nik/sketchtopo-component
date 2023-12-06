@@ -15,6 +15,16 @@
         width: 100%;
         overflow: hidden;
       }
+
+      /* TODO: if shown on GUI, implement view.UI so s-c can be nested under a-map */
+      sketchtopo-component {
+        display:block;
+        position: relative;
+        bottom: 8vh;
+        left: 2.5vw;
+        background: rgba(255, 255, 255, 0.7);
+        width: 95vw;
+      }
     </style>
 
     <!-- ArcGIS Maps SDK for JavaScript-->
@@ -32,7 +42,8 @@
       <arcgis-sketch position="top-right" expandable />
     </arcgis-map>
     
-    <!-- TODO: why does camelCase work in case of checkGeometries => this article says, in HTML everything needs to be dashed: https://stenciljs.com/docs/properties#variable-casing -->
+    <!-- TODO: why does camelCase work in case of checkGeometries 
+      => this article says, in HTML everything needs to be dashed: https://stenciljs.com/docs/properties#variable-casing -->
     <sketchtopo-component checkGeometries='[]'></sketchtopo-component>
     
     <script type="module" src="/build/index.esm.js"></script>
