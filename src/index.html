@@ -3,14 +3,35 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
-    <title>Stencil Component Starter</title>
+    <title>Sketchtopo Web Component</title>
+    
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+      }
+    </style>
+
+    <!-- ArcGIS Maps SDK for JavaScript-->
+    <link rel="stylesheet" href="https://js.arcgis.com/next/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/next"></script>
+    <script type="module" src="https://js.arcgis.com/map-components/next/arcgis-map-components.esm.js"></script>
 
     <script type="module" src="/build/sketchtopo-component.esm.js"></script>
     <script nomodule src="/build/sketchtopo-component.js"></script>
     <script type="module" src="/build/sketchtopo-component.esm.js"></script>
     <script nomodule src="/build/sketchtopo-component.js"></script>
   </head>
-  <body>
+  <body class="calcite"> 
+    <arcgis-map item-id="45b3b2fb35e94ab09381d0caa0da5946">
+      <arcgis-sketch position="top-right" expandable />
+    </arcgis-map>
+    
     <!-- TODO: why does camelCase work in case of checkGeometries => this article says, in HTML everything needs to be dashed: https://stenciljs.com/docs/properties#variable-casing -->
     <sketchtopo-component checkGeometries='[]'></sketchtopo-component>
     
