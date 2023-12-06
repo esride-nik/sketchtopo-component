@@ -1,6 +1,6 @@
 import { Component, Prop, h } from '@stencil/core';
 import { format } from '../../utils/utils';
-import { Geometry } from '@arcgis/core/geometry'
+import { Geometry } from '@arcgis/core/geometry';
 
 @Component({
   tag: 'sketchtopo-component',
@@ -9,22 +9,17 @@ import { Geometry } from '@arcgis/core/geometry'
 })
 export class SketchTopoComponent {
 
-  private checkGeometries: Geometry[]
-  
   @Prop() banana: string;
-  @Prop() checkgeostr: string;
+  @Prop() checkGeometries: Geometry[];
   @Prop() middle: string;
   @Prop() last: string;
 
   connectedCallback(c: any) {
-
-    // TODO:  https://gilfink.medium.com/using-complex-objects-arrays-as-props-in-stencil-components-f2d54b093e85
-    
-    console.log("connectedCallback", this.checkgeostr)
+    console.log("connectedCallback", this.checkGeometries, c)
   }
 
   private getText(): string {
-    return format(JSON.stringify(this.checkgeostr), this.middle, this.last);
+    return format(JSON.stringify(this.checkGeometries), this.middle, this.last);
   }
 
   render() {
