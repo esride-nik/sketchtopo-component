@@ -12,7 +12,6 @@ export namespace Components {
         "checkGeometries": Geometry[];
         "position": "bottom-leading"|"bottom-left"|"bottom-right"|"bottom-trailing"|"top-leading"|"top-left"|"top-right"|"top-trailing"|"manual";
         "referenceElement": string;
-        "view": __esri.MapView | __esri.SceneView;
     }
 }
 declare global {
@@ -31,7 +30,6 @@ declare namespace LocalJSX {
         "checkGeometries"?: Geometry[];
         "position"?: "bottom-leading"|"bottom-left"|"bottom-right"|"bottom-trailing"|"top-leading"|"top-left"|"top-right"|"top-trailing"|"manual";
         "referenceElement"?: string;
-        "view"?: __esri.MapView | __esri.SceneView;
     }
     interface IntrinsicElements {
         "sketchtopo-component": SketchtopoComponent;

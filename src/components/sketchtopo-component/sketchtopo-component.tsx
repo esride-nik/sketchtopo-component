@@ -1,4 +1,4 @@
-import { Component, Prop, Watch, h } from '@stencil/core';
+import { Component, Host, Prop, Watch, h } from '@stencil/core';
 import { Geometry } from '@arcgis/core/geometry';
 import MapView from "@arcgis/core/views/MapView";
 import SceneView from "@arcgis/core/views/SceneView";
@@ -13,7 +13,8 @@ export class SketchTopoComponent {
   @Prop() checkGeometries: Geometry[];
   @Prop() position: "bottom-leading"|"bottom-left"|"bottom-right"|"bottom-trailing"|"top-leading"|"top-left"|"top-right"|"top-trailing"|"manual";
   @Prop() referenceElement: string;
-  @Prop() view: __esri.MapView | __esri.SceneView;
+  private view: __esri.MapView | __esri.SceneView;
+  private sketchTopoComponent?: HTMLElement;
   
   @Watch('checkGeometries')
   watchGeometries(newValue: Geometry[], oldValue: Geometry[]) {
@@ -21,11 +22,25 @@ export class SketchTopoComponent {
     console.log('The new value of checkGeometries is: ', newValue);
   }
 
-  connectedCallback(c: any) {
+  private addCmpToUi() {
+    this.view.ui.add(this.sketchTopoComponent, this.position);
+  }
+
+  // Reference: https://stenciljs.com/docs/component-lifecycle
+  // Called every time the component is connected to the DOM. When the component is first connected, this method is called before componentWillLoad.
+  connectedCallback() {    
+    document.querySelector("arcgis-map")?.addEventListener("viewReady", async (event: any) => {
+      this.view = event.detail.view;
+      this.addCmpToUi();
+    });
+    document.querySelector("arcgis-scene")?.addEventListener("viewReady", async (event: any) => {
+      this.view = event.detail.view;
+      this.addCmpToUi();
+    });
+
     console.log("checkGeometries", this.checkGeometries);
     console.log("position", this.position);
     console.log("referenceElement", this.referenceElement);
-    console.log("view", this.view);
   }
 
   private getText(): string {
@@ -33,6 +48,6 @@ export class SketchTopoComponent {
   }
 
   render() {
-    return <div>Hello, World! I'm {this.getText()}</div>;
+    return <div class="esri-widget" ref={el => this.sketchTopoComponent = el as HTMLElement}>Hello, El! {this.getText()}</div>;
   }
 }

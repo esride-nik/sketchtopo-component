@@ -1,3 +1,7 @@
 :host {
   display: block;
 }
+
+sketchtopo-component {
+  padding: 3px;
+}
