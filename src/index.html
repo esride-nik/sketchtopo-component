@@ -20,8 +20,8 @@
       sketchtopo-component {
         display:block;
         position: relative;
-        bottom: 8vh;
-        left: 2.5vw;
+        /* bottom: 8vh;
+        left: 2.5vw; */
         background: rgba(255, 255, 255, 0.7);
         width: 95vw;
       }
@@ -39,15 +39,12 @@
   </head>
   <body class="calcite"> 
     <arcgis-map item-id="45b3b2fb35e94ab09381d0caa0da5946">
+      <sketchtopo-component checkGeometries='[]' position="top-right" />
       <arcgis-expand position="top-right">
         <arcgis-sketch position="top-right" />
       </arcgis-expand>
     </arcgis-map>
-    
-    <!-- TODO: why does camelCase work in case of checkGeometries 
-      => this article says, in HTML everything needs to be dashed: https://stenciljs.com/docs/properties#variable-casing -->
-    <sketchtopo-component checkGeometries='[]'></sketchtopo-component>
-    
+        
     <script type="module" src="/build/index.esm.js"></script>
     <script>
     </script>

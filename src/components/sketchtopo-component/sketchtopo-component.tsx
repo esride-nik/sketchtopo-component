@@ -1,5 +1,7 @@
 import { Component, Prop, Watch, h } from '@stencil/core';
 import { Geometry } from '@arcgis/core/geometry';
+import MapView from "@arcgis/core/views/MapView";
+import SceneView from "@arcgis/core/views/SceneView";
 
 @Component({
   tag: 'sketchtopo-component',
@@ -9,6 +11,9 @@ import { Geometry } from '@arcgis/core/geometry';
 export class SketchTopoComponent {
 
   @Prop() checkGeometries: Geometry[];
+  @Prop() position: "bottom-leading"|"bottom-left"|"bottom-right"|"bottom-trailing"|"top-leading"|"top-left"|"top-right"|"top-trailing"|"manual";
+  @Prop() referenceElement: string;
+  @Prop() view: __esri.MapView | __esri.SceneView;
   
   @Watch('checkGeometries')
   watchGeometries(newValue: Geometry[], oldValue: Geometry[]) {
@@ -17,7 +22,10 @@ export class SketchTopoComponent {
   }
 
   connectedCallback(c: any) {
-    console.log("connectedCallback", this.checkGeometries, c)
+    console.log("checkGeometries", this.checkGeometries);
+    console.log("position", this.position);
+    console.log("referenceElement", this.referenceElement);
+    console.log("view", this.view);
   }
 
   private getText(): string {
