@@ -3,6 +3,7 @@ import { Geometry } from '@arcgis/core/geometry';
 import MapView from "@arcgis/core/views/MapView";
 import SceneView from "@arcgis/core/views/SceneView";
 
+// TODO: for some reason, styles are not applied, although they should be => https://stenciljs.com/docs/styling#styling-with-the-shadow-dom. does this interfere with view.ui?
 @Component({
   tag: 'sketchtopo-component',
   styleUrl: 'sketchtopo-component.css',
@@ -13,7 +14,7 @@ export class SketchTopoComponent {
   @Prop() checkGeometries: Geometry[];
   @Prop() position: "bottom-leading"|"bottom-left"|"bottom-right"|"bottom-trailing"|"top-leading"|"top-left"|"top-right"|"top-trailing"|"manual";
   @Prop() referenceElement: string;
-  private view: __esri.MapView | __esri.SceneView;
+  private view: MapView | SceneView;
   private sketchTopoComponent?: HTMLElement;
   
   @Watch('checkGeometries')
