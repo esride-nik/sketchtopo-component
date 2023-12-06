@@ -1,4 +1,4 @@
-import { Component, Prop, h } from '@stencil/core';
+import { Component, Prop, Watch, h } from '@stencil/core';
 import { Geometry } from '@arcgis/core/geometry';
 
 @Component({
@@ -9,6 +9,12 @@ import { Geometry } from '@arcgis/core/geometry';
 export class SketchTopoComponent {
 
   @Prop() checkGeometries: Geometry[];
+  
+  @Watch('checkGeometries')
+  watchGeometries(newValue: Geometry[], oldValue: Geometry[]) {
+    console.log('The old value of checkGeometries is: ', oldValue);
+    console.log('The new value of checkGeometries is: ', newValue);
+  }
 
   connectedCallback(c: any) {
     console.log("connectedCallback", this.checkGeometries, c)
