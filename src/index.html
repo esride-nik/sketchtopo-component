@@ -11,7 +11,12 @@
     <script nomodule src="/build/sketchtopo-component.js"></script>
   </head>
   <body>
-    <sketchtopo-component checkgeostr='[{\"type\":\"point\",\"x\": -0.178,\"y\": 51.48791,\"z\": 1010}]' middle="middle" last="'Don't call me a framework' JS"></sketchtopo-component>
+    <sketchtopo-component checkgeostr='x' middle="middle" last="'Don't call me a framework' JS"></sketchtopo-component>
     <!-- <sketchtopo-component banana="binini" checkgeostr="banana" middle="middle" last="'Don't call me a framework' JS"></sketchtopo-component> -->
+    
+    <script>
+      var cmp = document.querySelector('sketchtopo-component');
+      cmp.checkgeostr = {"geometry":{"type":"point","x":-0.178,"y":51.48791,"z":1010},"symbol":{"type":"simple-marker","color":[226,119,40],"outline":{"color":[255,255,255],"width":2}}}
+    </script>
   </body>
 </html>

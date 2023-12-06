@@ -20,13 +20,11 @@ export class SketchTopoComponent {
 
     // TODO:  https://gilfink.medium.com/using-complex-objects-arrays-as-props-in-stencil-components-f2d54b093e85
     
-    const replaced = this.checkgeostr.replace(/\\"/g, '"'); 
-    this.checkGeometries = JSON.parse(replaced)
-    console.log("connectedCallback", c, this.checkGeometries)
+    console.log("connectedCallback", this.checkgeostr)
   }
 
   private getText(): string {
-    return format(this.checkGeometries?.length.toString(), this.middle, this.last);
+    return format(JSON.stringify(this.checkgeostr), this.middle, this.last);
   }
 
   render() {
