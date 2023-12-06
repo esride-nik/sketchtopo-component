@@ -9,10 +9,7 @@ import { Geometry } from "@arcgis/core/geometry";
 export { Geometry } from "@arcgis/core/geometry";
 export namespace Components {
     interface SketchtopoComponent {
-        "banana": string;
         "checkGeometries": Geometry[];
-        "last": string;
-        "middle": string;
     }
 }
 declare global {
@@ -28,10 +25,7 @@ declare global {
 }
 declare namespace LocalJSX {
     interface SketchtopoComponent {
-        "banana"?: string;
         "checkGeometries"?: Geometry[];
-        "last"?: string;
-        "middle"?: string;
     }
     interface IntrinsicElements {
         "sketchtopo-component": SketchtopoComponent;

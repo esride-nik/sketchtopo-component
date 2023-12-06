@@ -1,5 +1,4 @@
 import { Component, Prop, h } from '@stencil/core';
-import { format } from '../../utils/utils';
 import { Geometry } from '@arcgis/core/geometry';
 
 @Component({
@@ -9,17 +8,14 @@ import { Geometry } from '@arcgis/core/geometry';
 })
 export class SketchTopoComponent {
 
-  @Prop() banana: string;
   @Prop() checkGeometries: Geometry[];
-  @Prop() middle: string;
-  @Prop() last: string;
 
   connectedCallback(c: any) {
     console.log("connectedCallback", this.checkGeometries, c)
   }
 
   private getText(): string {
-    return format(JSON.stringify(this.checkGeometries), this.middle, this.last);
+    return JSON.stringify(this.checkGeometries);
   }
 
   render() {
