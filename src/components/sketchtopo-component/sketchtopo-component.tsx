@@ -1,4 +1,4 @@
-import { Component, Host, Prop, Watch, h } from '@stencil/core';
+import { Component, Prop, Watch, h } from '@stencil/core';
 import { Geometry } from '@arcgis/core/geometry';
 import MapView from "@arcgis/core/views/MapView";
 import SceneView from "@arcgis/core/views/SceneView";
