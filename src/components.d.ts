@@ -11,7 +11,7 @@ export namespace Components {
     interface SketchtopoComponent {
         "checkGeometries": Geometry[];
         "position": "bottom-leading"|"bottom-left"|"bottom-right"|"bottom-trailing"|"top-leading"|"top-left"|"top-right"|"top-trailing"|"manual";
-        "referenceElement": string;
+        "sketchWidget": __esri.Sketch;
     }
 }
 declare global {
@@ -29,7 +29,7 @@ declare namespace LocalJSX {
     interface SketchtopoComponent {
         "checkGeometries"?: Geometry[];
         "position"?: "bottom-leading"|"bottom-left"|"bottom-right"|"bottom-trailing"|"top-leading"|"top-left"|"top-right"|"top-trailing"|"manual";
-        "referenceElement"?: string;
+        "sketchWidget"?: __esri.Sketch;
     }
     interface IntrinsicElements {
         "sketchtopo-component": SketchtopoComponent;

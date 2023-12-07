@@ -12,15 +12,18 @@ import Query from "@arcgis/core/rest/support/Query";
   shadow: true,
 })
 export class SketchTopoComponent {
-
-  @Prop() checkGeometries: Geometry[];
+  // props
+  @Prop({reflect:true}) checkGeometries: Geometry[];
   @Prop() position: "bottom-leading"|"bottom-left"|"bottom-right"|"bottom-trailing"|"top-leading"|"top-left"|"top-right"|"top-trailing"|"manual";
-  @Prop() referenceElement: string;
+  @Prop() sketchWidget: __esri.Sketch;
+
+  // class vars
   private view: MapView | SceneView;
   private sketchTopoComponent?: HTMLElement;
   private polygonLayer: FeatureLayer;
   private polygonLayerQuery: Query;
   
+  // Watches checkGeometries prop and performs query when it changes
   @Watch('checkGeometries')
   async watchGeometries(newValue: Geometry[], oldValue: Geometry[]) {
     console.log('The old value of checkGeometries is: ', oldValue);
@@ -34,9 +37,18 @@ export class SketchTopoComponent {
     this.sketchTopoComponent.innerText =  `Your drawn feature contains ${fCount} features on the layer.`
   }
 
-  private setupView(view: MapView | SceneView) {
+  // cmp initialization
+  private setupComponent(view: MapView | SceneView) {
     this.view = view;
     this.view.ui.add(this.sketchTopoComponent, this.position);
+
+    // Sketch complete callback sets new sketch geometry to checkGeometries prop
+    this.sketchWidget.on("create", (c: any) => {
+        if (c.state == "complete") {
+            console.log(c);
+            this.checkGeometries = [c.graphic.geometry];
+        }
+    })
 
     // TODO: come up with sth better to get a polygon layer.. probably a prop
     const allFeatureLayers = (this.view.map.allLayers as any).items.filter((l: __esri.Layer) => l.type == "feature")
@@ -53,15 +65,14 @@ export class SketchTopoComponent {
   // Called every time the component is connected to the DOM. When the component is first connected, this method is called before componentWillLoad.
   connectedCallback() {    
     document.querySelector("arcgis-map")?.addEventListener("viewReady", async (event: any) => {
-      this.setupView(event.detail.view);
+      this.setupComponent(event.detail.view);
     });
     document.querySelector("arcgis-scene")?.addEventListener("viewReady", async (event: any) => {
-      this.setupView(event.detail.view);
+      this.setupComponent(event.detail.view);
     });
 
     console.log("checkGeometries", this.checkGeometries);
     console.log("position", this.position);
-    console.log("referenceElement", this.referenceElement);
   }
 
   private getText(): string {
