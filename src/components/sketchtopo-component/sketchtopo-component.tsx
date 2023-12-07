@@ -1,7 +1,11 @@
 import { Component, Prop, Watch, h } from '@stencil/core';
 import { Geometry } from '@arcgis/core/geometry';
+import Graphic from "@arcgis/core/Graphic";
 import MapView from "@arcgis/core/views/MapView";
 import SceneView from "@arcgis/core/views/SceneView";
+import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
+import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
+import Query from "@arcgis/core/rest/support/Query";
 
 // TODO: for some reason, styles are not applied, although they should be => https://stenciljs.com/docs/styling#styling-with-the-shadow-dom. does this interfere with view.ui?
 @Component({
@@ -16,27 +20,65 @@ export class SketchTopoComponent {
   @Prop() referenceElement: string;
   private view: MapView | SceneView;
   private sketchTopoComponent?: HTMLElement;
+  private polygonLayer: FeatureLayer;
+  private polygonLayerQuery: Query;
+  private resultsGraphicsLayer: GraphicsLayer;
   
   @Watch('checkGeometries')
-  watchGeometries(newValue: Geometry[], oldValue: Geometry[]) {
+  async watchGeometries(newValue: Geometry[], oldValue: Geometry[]) {
     console.log('The old value of checkGeometries is: ', oldValue);
     console.log('The new value of checkGeometries is: ', newValue);
+
+    if (this.polygonLayerQuery === undefined || newValue?.length == 0) return;
+
+    this.polygonLayerQuery.geometry = newValue[0];
+    this.polygonLayerQuery.spatialRelationship = 'contains';
+    const fCount = await this.polygonLayer.queryFeatureCount(this.polygonLayerQuery);
+    this.sketchTopoComponent.innerText =  `Your drawn feature contains ${fCount} features on the layer.`
+    
+    // TODO: This ends with mystical error "Assigning an instance of 'esri.Graphic' which is not a subclass of 'esri.Graphic'" ??
+    // const fFromQuery = await this.polygonLayer.queryFeatures(this.polygonLayerQuery);
+    // // this.resultsGraphicsLayer.removeAll();
+    // fFromQuery.features.forEach((g: Graphic) => {
+    //   g.symbol = {
+    //     type: "simple-fill",
+    //     color: [ 51,51, 204, 0.9 ],
+    //     style: "solid",
+    //     outline: {
+    //       color: "white",
+    //       width: 1
+    //     }
+    //   } as unknown as __esri.SimpleFillSymbol;
+    //   this.resultsGraphicsLayer.add(g);
+    // });
   }
 
-  private addCmpToUi() {
+  private setupView(view: MapView | SceneView) {
+    this.view = view;
     this.view.ui.add(this.sketchTopoComponent, this.position);
+
+    // TODO: come up with sth better to get a polygon layer.. probably a prop
+    const allFeatureLayers = (this.view.map.allLayers as any).items.filter((l: __esri.Layer) => l.type == "feature")
+    this.view.whenLayerView(allFeatureLayers[0]).then((lv: __esri.FeatureLayerView) => {
+      this.polygonLayer = lv.layer; //.geometryType == 'polygon' ? lv.layer as FeatureLayer : undefined;
+      lv.layer.popupEnabled = false;
+      this.polygonLayerQuery = this.polygonLayer.createQuery();
+    }).catch(() => {
+      this.sketchTopoComponent.innerText =  "No polygon feature layer found."
+    })
+
+    this.resultsGraphicsLayer = new GraphicsLayer({id: "resultsGraphicsLayer"});
+    this.view.map.add(this.resultsGraphicsLayer, 0);
   }
 
   // Reference: https://stenciljs.com/docs/component-lifecycle
   // Called every time the component is connected to the DOM. When the component is first connected, this method is called before componentWillLoad.
   connectedCallback() {    
     document.querySelector("arcgis-map")?.addEventListener("viewReady", async (event: any) => {
-      this.view = event.detail.view;
-      this.addCmpToUi();
+      this.setupView(event.detail.view);
     });
     document.querySelector("arcgis-scene")?.addEventListener("viewReady", async (event: any) => {
-      this.view = event.detail.view;
-      this.addCmpToUi();
+      this.setupView(event.detail.view);
     });
 
     console.log("checkGeometries", this.checkGeometries);
