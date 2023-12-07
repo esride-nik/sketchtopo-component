@@ -1,10 +1,8 @@
 import { Component, Prop, Watch, h } from '@stencil/core';
 import { Geometry } from '@arcgis/core/geometry';
-import Graphic from "@arcgis/core/Graphic";
 import MapView from "@arcgis/core/views/MapView";
 import SceneView from "@arcgis/core/views/SceneView";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
-import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import Query from "@arcgis/core/rest/support/Query";
 
 // TODO: for some reason, styles are not applied, although they should be => https://stenciljs.com/docs/styling#styling-with-the-shadow-dom. does this interfere with view.ui?
@@ -22,7 +20,6 @@ export class SketchTopoComponent {
   private sketchTopoComponent?: HTMLElement;
   private polygonLayer: FeatureLayer;
   private polygonLayerQuery: Query;
-  private resultsGraphicsLayer: GraphicsLayer;
   
   @Watch('checkGeometries')
   async watchGeometries(newValue: Geometry[], oldValue: Geometry[]) {
@@ -35,22 +32,6 @@ export class SketchTopoComponent {
     this.polygonLayerQuery.spatialRelationship = 'contains';
     const fCount = await this.polygonLayer.queryFeatureCount(this.polygonLayerQuery);
     this.sketchTopoComponent.innerText =  `Your drawn feature contains ${fCount} features on the layer.`
-    
-    // TODO: This ends with mystical error "Assigning an instance of 'esri.Graphic' which is not a subclass of 'esri.Graphic'" ??
-    // const fFromQuery = await this.polygonLayer.queryFeatures(this.polygonLayerQuery);
-    // // this.resultsGraphicsLayer.removeAll();
-    // fFromQuery.features.forEach((g: Graphic) => {
-    //   g.symbol = {
-    //     type: "simple-fill",
-    //     color: [ 51,51, 204, 0.9 ],
-    //     style: "solid",
-    //     outline: {
-    //       color: "white",
-    //       width: 1
-    //     }
-    //   } as unknown as __esri.SimpleFillSymbol;
-    //   this.resultsGraphicsLayer.add(g);
-    // });
   }
 
   private setupView(view: MapView | SceneView) {
@@ -66,9 +47,6 @@ export class SketchTopoComponent {
     }).catch(() => {
       this.sketchTopoComponent.innerText =  "No polygon feature layer found."
     })
-
-    this.resultsGraphicsLayer = new GraphicsLayer({id: "resultsGraphicsLayer"});
-    this.view.map.add(this.resultsGraphicsLayer, 0);
   }
 
   // Reference: https://stenciljs.com/docs/component-lifecycle
