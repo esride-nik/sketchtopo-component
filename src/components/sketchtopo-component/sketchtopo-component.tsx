@@ -3,7 +3,10 @@ import { Geometry } from '@arcgis/core/geometry';
 import MapView from "@arcgis/core/views/MapView";
 import SceneView from "@arcgis/core/views/SceneView";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
+import FeatureLayerView from "@arcgis/core/views/layers/FeatureLayerView";
 import Query from "@arcgis/core/rest/support/Query";
+import Layer from '@arcgis/core/layers/Layer';
+// import { c as checkForView } from '@arcgis/map-components/dist/components/component-utils.js';
 
 // TODO: for some reason, styles are not applied, although they should be => https://stenciljs.com/docs/styling#styling-with-the-shadow-dom. does this interfere with view.ui?
 @Component({
@@ -13,7 +16,7 @@ import Query from "@arcgis/core/rest/support/Query";
 })
 export class SketchTopoComponent {
   // props
-  @Prop({reflect:true}) checkGeometries: Geometry[];
+  @Prop({reflect:true}) checkGeometries: __esri.Geometry[];
   @Prop() position: "bottom-leading"|"bottom-left"|"bottom-right"|"bottom-trailing"|"top-leading"|"top-left"|"top-right"|"top-trailing"|"manual";
   @Prop() sketchWidget: __esri.Sketch;
 
@@ -51,8 +54,8 @@ export class SketchTopoComponent {
     })
 
     // TODO: come up with sth better to get a polygon layer.. probably a prop
-    const allFeatureLayers = (this.view.map.allLayers as any).items.filter((l: __esri.Layer) => l.type == "feature")
-    this.view.whenLayerView(allFeatureLayers[0]).then((lv: __esri.FeatureLayerView) => {
+    const allFeatureLayers = (this.view.map.allLayers as any).items.filter((l: Layer) => l.type == "feature")
+    this.view.whenLayerView(allFeatureLayers[0]).then((lv: FeatureLayerView) => {
       this.polygonLayer = lv.layer; //.geometryType == 'polygon' ? lv.layer as FeatureLayer : undefined;
       lv.layer.popupEnabled = false;
       this.polygonLayerQuery = this.polygonLayer.createQuery();
@@ -61,9 +64,15 @@ export class SketchTopoComponent {
     })
   }
 
+  // async componentDidLoad() {
+  //   // TODO: this alternative to querySelector  doesn't quite work yet
+  //   const mapviewRef = this.sketchTopoComponent.closest("arcgis-map");
+  //   console.log('mapviewRef', mapviewRef);
+  // }
+
   // Reference: https://stenciljs.com/docs/component-lifecycle
   // Called every time the component is connected to the DOM. When the component is first connected, this method is called before componentWillLoad.
-  connectedCallback() {    
+  connectedCallback() {
     document.querySelector("arcgis-map")?.addEventListener("viewReady", async (event: any) => {
       this.setupComponent(event.detail.view);
     });
@@ -80,6 +89,6 @@ export class SketchTopoComponent {
   }
 
   render() {
-    return <div class="esri-widget" ref={el => this.sketchTopoComponent = el as HTMLElement}>Hello, El! {this.getText()}</div>;
+    return <div class="esri-widget" ref={el => this.sketchTopoComponent = el as HTMLElement}>{this.getText()}</div>;
   }
 }
