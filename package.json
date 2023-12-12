@@ -26,7 +26,8 @@
     "generate": "stencil generate"
   },
   "dependencies": {
-    "@arcgis/core": "^4.28.10",
+    "@arcgis/core": "^4.29.0-next.20231212",
+    "@arcgis/map-components": "^4.29.0-beta.38",
     "@stencil/core": "^4.7.0",
     "esri-loader": "^3.7.0"
   },
